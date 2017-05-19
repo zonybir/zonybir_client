@@ -1,0 +1,16 @@
+/* 公共变量定义 */
+$blk:#1c1b1a;
+$base:#f18e00;
+$gray:#7f7f7f;
+
+@mixin font-family {font-family: Helvetica, "Microsoft YaHei","Heiti","Heiti SC", "DroidSans", "DroidSansFallback","Helvetica Neue",  "STHeiTi", Arial, sans-serif;}
+@mixin border {border:1px solid #e8e8e8; }
+@mixin text_point($width:100%) {width: $width; overflow:hidden; text-overflow:ellipsis; white-space: nowrap; }
+@mixin fake_img($url,$w:100%,$h:100%){content:"";display:block;background:url($url) center no-repeat;position:absolute;top:0;background-size: $w $h}
+@mixin bg_img($url,$w:100%,$h:100%){background:url($url) center no-repeat;background-size: $w $h;}
+@mixin imgMiddle($h){background-color:#fafafa;height:$h;overflow: hidden;text-align:center;img{height:auto;position: relative;top:50%;transform:translate(0,-50%);}}
+
+
+@import 'reset';
+@import 'public';
+@import 'index';

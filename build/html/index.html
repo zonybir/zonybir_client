@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>zonybir server code</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name ="keywords" content="www.zonybir.com">
+    <link rel="shortcut icon" type="image/x-icon" href="./img/favicon.ico" >
+    <link rel="bookmark" type="image/x-icon" href="./img/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="/style/app.css">
+    <script>
+    document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+    ':35730/livereload.js?snipver=1"></' + 'script>')
+    </script>
+</head>
+<body>
+    <div id="app">
+
+
+<div id="index">
+    <div class="loading_image"></div>
+    <div class="fixed_container">
+        <canvas class="main_canvas" id="main_canvas" />
+    </div>
+    <div class="fixed_container content">
+        <div class="main_box">
+            <div class="nav_bar">
+                <div class="scroll_inner">
+                    <div class="item bold" id="test">
+                        <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                        <span class="name">设置</span>
+                    </div>
+                    <div class="item music ">
+                        <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                        <span class="name">设置</span>
+                    </div>
+                    <div class="item tive ">
+                        <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                        <span class="name">设置</span>
+                    </div>
+                </div>
+            </div>
+            <div class="past_content">
+                <div class="item bold" id="test">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">博客</span>
+                </div>
+                <div class="item music ">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">音乐</span>
+                </div>
+                <div class="item tive ">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">相册</span>
+                </div>
+                <div class="item tive ">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">Ngrok</span>
+                </div>
+                <div class="item tive ">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">树莓派</span>
+                </div>
+                <div class="item tive ">
+                    <canvas width="230px" height="150px" class="item_canvas"></canvas>
+                    <span class="name">相册</span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        window.onload=function (){
+            document.getElementById('test').style.display='block';
+            var top_bg_canvas=document.getElementById('top_bg_canvas'),
+                top_ctx=top_bg_canvas.getContext('2d'),
+                top_width=top_bg_canvas.clientWidth,
+                top_height=top_bg_canvas.clientHeight;
+            top_bg_canvas.width=top_width;
+            top_bg_canvas.height=top_height;
+            var top_bg_data=top_ctx.getImageData(0, 0,top_width,top_height);
+            console.log(top_ctx.getImageData(0, 0,top_width,top_height))
+            //for(var i = 0; i <top_bg_data.height; ++i){
+                for(var j = 0; j < top_bg_data.width; j++){
+                        
+                        
+                    //console.log(1);
+                }
+            function aaa(){
+                var j=0;
+                function fjiniewff(){
+                    for(var i=0;i<top_bg_data.height;i++){
+                        var r=Math.round(255*Math.random()),
+                        g=Math.round(255*Math.random()),
+                        b=Math.round(255*Math.random()),
+                        a=Math.round(190*Math.random());
+                        var x = i*4*top_bg_data.width + 4*j;  //imagedata读取的像素数据存储在data属性里，是从上到下，从左到右的，每个像素需要占用4位数据，分别是r,g,b,alpha透明通道
+                        //r = top_bg_data.data[x],
+                    // g = top_bg_data.data[x+1],
+                        //b = top_bg_data.data[x+2];
+                        //top_bg_data.data[x+3] = 150;    //透明度设置为150,0表示完全透明
+                        //图片反相：
+                        top_bg_data.data[x] = r;
+                        top_bg_data.data[x+1] =g;
+                        top_bg_data.data[x+2] =b;
+                        top_bg_data.data[x+3] =a;
+                        top_ctx.putImageData(top_bg_data,0,0);
+                    }
+                    
+                    j++;
+                    if(j>=top_bg_data.width) return;
+                    setTimeout(fjiniewff,0);
+                }
+                fjiniewff();
+            }
+            aaa();
+            
+            //}
+            //top_bg_datatx.putImageData(top_bg_data, 40, 40);
+            top_ctx.putImageData(top_bg_data,0,0); 
+
+            function getDrawPosition(canvas_ctx){
+                var width=canvas_ctx.width,
+                    height = canvas_ctx.height,
+                    x = 0;
+            }
+            //return;
+
+
+
+            canvas=document.getElementById('main_canvas');
+            var width=canvas.clientWidth,
+                height=canvas.clientHeight,
+                ctx=canvas.getContext('2d');
+            canvas.width=width;
+            canvas.height=height;
+            console.log(width,height);
+            ctx.beginPath();
+            ctx.strokeStyle='#f00';
+            ctx.lineWidth="2";
+            var center=[width/2,height/2],
+                sigle=0,
+                r=80;//Math.min.apply(this,center),
+                nowLine=[center[0]+r,r];
+            console.log(r);
+            var c=0.8;
+            function createImg(r,r_s,sigle,sigle_s,centerPoint,context,onlyDraw,speed){
+                function createImgMain(){
+                    sigle=(sigle+=sigle_s)>=360?0:sigle;
+                    r-=r_s;
+                    if(r<=0) return;
+                    let nowSigle=sigle>270?[360-sigle,1,-1]:sigle>180?[sigle-180,-1,-1]:sigle>90?[180-sigle,-1,1]:[sigle,1,1],
+                        x=Math.cos(nowSigle[0])*r*nowSigle[1],
+                        y=Math.sin(nowSigle[0])*r*nowSigle[2];
+                    context.lineTo((centerPoint[0]+x).toFixed(2),(centerPoint[1]+y).toFixed(2));
+                    ctx.stroke();
+                    onlyDraw?createImgMain():setTimeout(createImgMain,speed);
+                }
+                createImgMain();
+            }
+            let dramItem=[[20,0.8,0,1,[center[0]+r,r],ctx,false,10]];
+            createImg.apply(this,dramItem[0]);
+            function mo(){
+                dramItem[0][4][0]-=10;
+                dramItem[0][4][1]=400;
+                dramItem[0][6]=true;
+                if(dramItem[0][4][0]<=80) return;
+                ctx.clearRect(0,0,width,height)
+                ctx.beginPath();
+                createImg.apply(this,dramItem[0]);
+                setTimeout(moveTo,10);
+            }
+            //draw();
+
+        }
+    </script>
+</div>
+
+
+    </div>
+</body>
+</html>

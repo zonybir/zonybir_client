@@ -1,8 +1,47 @@
 'use strict'
 
 var gulp = require('gulp'),
-    webpack = require('gulp-webpack');
-        
+    webpack = require('gulp-webpack'),
+    maps= require('gulp-sourcemaps'),
+    sass = require('gulp-sass'),
+    autoprefixer = require('gulp-autoprefixer'),
+    include = require('gulp-file-include'),
+    uglify = require('gulp-uglify'),
+    clean = require('gulp-clean'),
+    livereload = require('livereload');
+
+const {html,images,css,livereloadconfig} = require('./gulpconfig');
+
+gulp.task('html',()=>{
+    return gulp.src(html.entry)
+            .pipe(include({
+                prefix:'@',
+                basepath:html.basepath
+            }))
+            .pipe(gulp.dest(html.out))
+})
+
+gulp.task('images',()=>{
+    return gulp.src(images.entry)
+            .pipe(gulp.dest(images.out))
+})
+
+gulp.task('sass',()=>{
+    return gulp.src(css.entry)
+            .pipe(maps.init())
+            .pipe(sass({
+                //outputStyle: 'compressed'
+            }).on('error',sass.logError))
+            .pipe(autoprefixer({
+                browsers: [
+                    'last 2 version',
+                    'Android >= 4.0',
+                    'iOS >= 6'
+                ]
+            }))
+            .pipe(maps.write('./'))
+            .pipe(gulp.dest(css.out))
+})
 
 gulp.task('webpack',()=>{
     return gulp.src('./src/app.js')
@@ -28,4 +67,15 @@ gulp.task('webpack',()=>{
                 devtool:'source-map'
             }))
             .pipe(gulp.dest('./'))
+})
+
+gulp.task('dev_html',['html','images','sass'],()=>{
+    let livereloadServer = livereload.createServer({
+        port:35730
+    })
+    livereloadServer.watch(livereloadconfig.watch);
+
+    gulp.watch(html.watch,['html'])
+    gulp.watch(images.watch,['images'])
+    gulp.watch(css.watch,['sass'])
 })

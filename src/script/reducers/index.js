@@ -1,9 +1,5 @@
 import {combineReducers} from 'redux'
-import Rffff,{routerReducer} from 'react-router-redux'
-import ReactRouter from 'react-router'
-console.log(routerReducer);
-console.log(Rffff)
-console.log(ReactRouter)
+import {routerReducer} from 'react-router-redux'
 import Test from './test'
 const routing = routerReducer;
 

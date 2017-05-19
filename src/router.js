@@ -1,13 +1,12 @@
 import React from 'react'
-import ReactRouter,{Router,Route,IndexRoute} from 'react-router'
+import {Router,Route,IndexRoute} from 'react-router'
 
-console.log(ReactRouter);
 import Index from './containers/index'
-
+import A from './containers/a'
 
 export default 
 
 <div>
-    <Router path='*' component={Index} />
-    <Router path='/' component={Index} />
+    <Route exact path='/' component={Index} />
+    <Route path='/a' component={A} />
 </div>

@@ -1,25 +1,38 @@
 import React from 'react'
-import ReactDOM,{render} from 'react-dom'
-import {createStore,combineReducers,applyMiddleware} from 'redux'
-import {Provider} from 'react-redux'
-import ReduxThunk from 'redux-thunk'
-import ReactRouter,{Router,Route,hashHistory,browserHistory} from 'react-router'
-import {syncHistoryWithStore,routerReducer} from 'react-router-redux'
+import {render} from 'react-dom'
 
-console.log(ReactRouter)
+import {createStore,applyMiddleware} from 'redux'
+import {Provider} from 'react-redux'
+
+import ReduxThunk from 'redux-thunk'
+
+import createHashHistory from 'history/createHashHistory'
+import {Router,Route,hashHistory,browserHistory} from 'react-router-dom'
+
+import {routerMiddleware,routerReducer,syncHistoryWithStore} from 'react-router-redux'
+
+
 import storeData from './reducers'
 import appRouter from './router.js'
+import Index from './containers/index'
+//console.log(Index);
+const history = createHashHistory();
 
-const store = createStore(
+const middleware = routerMiddleware(history);
+
+let store = createStore(
     storeData,
-    applyMiddleware(ReduxThunk)
+    applyMiddleware(ReduxThunk),
+    applyMiddleware(middleware)
 );
+//console.log(syncHistoryWithStore)
+//const history = syncHistoryWithStore(hashHistory,store);
 
-const history = syncHistoryWithStore(hashHistory,store);
-
-ReactDOM.render(
+render(
     <Provider store={store}>
-        <Router history={history} routers={appRouter} />
+        <Router history={history} >
+            {appRouter}
+        </Router>
     </Provider>,
     document.getElementById('app')
 )
