@@ -38,3 +38,5 @@ jspm_packages
 ./node-http-proxy/.git
 ./node-http-proxy/.git/*
 ./build
+./test
+./test/**
