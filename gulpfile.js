@@ -10,7 +10,7 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     livereload = require('livereload');
 
-const {html,images,css,livereloadconfig} = require('./gulpconfig');
+const {html,images,css,js,livereloadconfig} = require('./gulpconfig');
 
 gulp.task('html',()=>{
     return gulp.src(html.entry)
@@ -20,7 +20,10 @@ gulp.task('html',()=>{
             }))
             .pipe(gulp.dest(html.out))
 })
-
+gulp.task('copy_index',()=>{
+    return gulp.src(html.copyEntry)
+            .pipe(gulp.dest(html.copyOut))
+})
 gulp.task('images',()=>{
     return gulp.src(images.entry)
             .pipe(gulp.dest(images.out))
@@ -44,7 +47,7 @@ gulp.task('sass',()=>{
 })
 
 gulp.task('webpack',()=>{
-    return gulp.src('./src/app.js')
+    return gulp.src('./src/script/app.js')
             .pipe(webpack({
                 watch:true,
                 output:{
@@ -69,13 +72,15 @@ gulp.task('webpack',()=>{
             .pipe(gulp.dest('./'))
 })
 
-gulp.task('dev_html',['html','images','sass'],()=>{
+gulp.task('dev',['html','copy_index','images','sass'],()=>{
     let livereloadServer = livereload.createServer({
         port:35730
     })
     livereloadServer.watch(livereloadconfig.watch);
 
     gulp.watch(html.watch,['html'])
+    gulp.watch(html.copyEntry,['copy_index'])
     gulp.watch(images.watch,['images'])
     gulp.watch(css.watch,['sass'])
+    //gulp.watch(js.watch,['webpack'])
 })

@@ -2,45 +2,31 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Test} from '../actions/ac_index'
 import {Link} from 'react-router-dom'
-import {RouteTransition } from 'react-router-transition'
-import spring from 'react-motion/lib/spring';
+import Page from '../components/page'
+import {
+    GetList,
+    SkipPage
+} from '../actions/ac_index';
 class Index extends Component{
     constructor(props){
         super(props);
     }
+    componentDidMount(){
+        this.props.dispatch(GetList());
+    }
     render(){
-        const slideConfig = { stiffness: 33, damping: 100 };
-        const fadeConfig = { stiffness: 20, damping: 100 };
-        console.log(this.props.location.pathname);
+        let {dispatch,list,pageObj}=this.props;
         return(
-            <RouteTransition
-            component={false}
-            pathname={this.props.location.pathname}
-            className="transition-wrapper"
-            atEnter={{ 
-                opacity: 0,
-                offset: 100
-            }}
-            atLeave={{ 
-                opacity: spring(0, fadeConfig),
-                offset: spring(-100, slideConfig)
-             }}
-            atActive={{ 
-                opacity: spring(1, slideConfig),
-                offset: spring(0, slideConfig)
-            }}
-            mapStyles={(styles)=>{
-                return {
-                    opacity: styles.opacity,
-                    transform: `translateX(${styles.offset}%)`,
-                };
-            }}
-            >
-            <div style={{backgrounColor:'#0f0'}}>
-                <p onClick={()=>{this.hanldeDispatch()}}>{this.props.data}</p>
-                <p><Link to="a">to a</Link></p>
+            <div id='i_list'>
+                <div className="list_content">
+                    {
+                        list.map((v,k)=>{
+                            return <Link className="title" to={"i_detail/"+v} key={'IlistIndex_'+k}>{v}</Link>
+                        })
+                    }
+                </div>
+                <Page data={pageObj} callback={SkipPage} dispatch={dispatch} config={{size:20,page:5}}/>
             </div>
-            </RouteTransition>
         )
     }
     hanldeDispatch(){
@@ -50,9 +36,10 @@ class Index extends Component{
 }
 
 const selectState = (state,ownProps)=>{
+    var thisState=state['iList']
     return{
-        a:state,
-        data:state.Test.a
+        list:thisState.list,
+        pageObj:thisState.pageObj
     }
 }
 

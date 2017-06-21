@@ -14,8 +14,9 @@ import {routerMiddleware,routerReducer,syncHistoryWithStore} from 'react-router-
 
 import storeData from './reducers'
 import appRouter from './router.js'
-import Index from './containers/index'
-//console.log(Index);
+
+import './lib/utils';
+
 const history = createHashHistory();
 
 const middleware = routerMiddleware(history);
