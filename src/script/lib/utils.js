@@ -39,6 +39,7 @@ function send_request(method,url,body){
         fetch(host+url,config).then(function(res){
             return res.json();
         }).then(function(res){
+            console.log(res);
             if(res.code==403){
                 alert(res.message);
                 return;

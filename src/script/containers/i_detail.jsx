@@ -1,12 +1,23 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
-import {Test} from '../actions/ac_index'
 import {Link} from 'react-router-dom'
 import {RouteTransition } from 'react-router-transition'
 import spring from 'react-motion/lib/spring';
+
+import {
+    GetDetail
+} from '../actions/ac_index'
 class Idetail extends Component{
     constructor(props){
         super(props);
+    }
+    componentDidMount(){
+        let id=this.props.params.id;
+        if(!id) history.go(-1);
+        this.props.dispatch(GetDetail(id));
+    }
+    componentWillReceiveProps(nextProps,nextState) {
+        if(this.props.params.id != nextProps.params.id) this.props.dispatch(GetDetail(nextProps.params.id));
     }
     render(){
         return(
@@ -54,16 +65,13 @@ class Idetail extends Component{
             </RouteTransition>
         )
     }
-    hanldeDispatch(){
-        console.log(1);
-        this.props.dispatch(Test());
-    }
 }
 
 const selectState = (state,ownProps)=>{
+    var thisState=state['iList']
     return{
-        a:state,
-        data:state.Test.a
+        list:thisState.detailList,
+        params:ownProps.match.params
     }
 }
 

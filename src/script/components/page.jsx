@@ -46,10 +46,10 @@ export default class Page extends  Component{
             {dispatch,callback,data}=this.props;
         return(
             <ul className="page_content clearfix">
-                <li className="skip_one" onClick={()=>dispatch(callback(v-1?v-1:v))}>{"<上一页"}</li>
+                <li className="skip_one" onClick={()=>dispatch(callback(parseInt(data.page)-1?parseInt(data.page)-1:parseInt(data.page)))}>{"<上一页"}</li>
                 <li className='active' >{data.page}</li>
                 <li className='input'> <input type='text' onBlur={(e)=>this.handleBulrInp(e.target.value)}/></li>
-                <li className="skip_one" onClick={()=>dispatch(callback(v+1))}>{"下一页>"}</li>
+                <li className="skip_one" onClick={()=>dispatch(callback(parseInt(data.page)+1))}>{"下一页>"}</li>
                 
             </ul>
         )

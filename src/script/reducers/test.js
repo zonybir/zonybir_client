@@ -3,7 +3,6 @@ const initState={
 }
 
 function Test(state=initState,action){
-    console.log(action);
     switch(action.type){
         case 'test':{
             return Object.assign({},state,{

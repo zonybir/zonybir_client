@@ -72,11 +72,11 @@
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
-	var _router = __webpack_require__(325);
+	var _router = __webpack_require__(327);
 	
 	var _router2 = _interopRequireDefault(_router);
 	
-	__webpack_require__(333);
+	__webpack_require__(338);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33459,9 +33459,13 @@
 	
 	var _test2 = _interopRequireDefault(_test);
 	
-	var _re_index = __webpack_require__(338);
+	var _re_index = __webpack_require__(325);
 	
 	var _re_index2 = _interopRequireDefault(_re_index);
+	
+	var _re_public = __webpack_require__(326);
+	
+	var _re_public2 = _interopRequireDefault(_re_public);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33470,7 +33474,8 @@
 	var reducer = (0, _redux.combineReducers)({
 	    Test: _test2.default,
 	    iList: _re_index2.default,
-	    routing: routing
+	    routing: routing,
+	    Public: _re_public2.default
 	});
 	
 	exports.default = reducer;
@@ -33492,7 +33497,6 @@
 	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
 	    var action = arguments[1];
 	
-	    console.log(action);
 	    switch (action.type) {
 	        case 'test':
 	            {
@@ -33509,6 +33513,82 @@
 
 /***/ }),
 /* 325 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var initState = {
+	    list: [],
+	    pageObj: { count: 0, page: 0 },
+	    detailId: -1,
+	    detailList: []
+	};
+	var key = 'IList';
+	
+	function IList() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case key + 'list':
+	            {
+	                return Object.assign({}, state, {
+	                    list: action.list,
+	                    pageObj: action.pageObj
+	                });
+	            }
+	        case key + '_detail':
+	            {
+	                return Object.assign({}, state, {
+	                    detailId: action.detailId,
+	                    detailList: action.detailList
+	                });
+	            }
+	        default:
+	            return state;
+	    }
+	}
+	
+	exports.default = IList;
+
+/***/ }),
+/* 326 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var initState = {
+	    list: [],
+	    pageObj: { count: 0, page: 0 }
+	};
+	var key = 'Public';
+	
+	function Public() {
+	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case key + 'login':
+	            {
+	                return Object.assign({}, state, {
+	                    login: action.data
+	                });
+	            }
+	        default:
+	            return state;
+	    }
+	}
+	
+	exports.default = Public;
+
+/***/ }),
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33523,15 +33603,19 @@
 	
 	var _reactRouter = __webpack_require__(276);
 	
-	var _index = __webpack_require__(326);
+	var _index = __webpack_require__(328);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
-	var _i_detail = __webpack_require__(328);
+	var _i_detail = __webpack_require__(331);
 	
 	var _i_detail2 = _interopRequireDefault(_i_detail);
 	
-	var _a = __webpack_require__(332);
+	var _login = __webpack_require__(335);
+	
+	var _login2 = _interopRequireDefault(_login);
+	
+	var _a = __webpack_require__(337);
 	
 	var _a2 = _interopRequireDefault(_a);
 	
@@ -33541,11 +33625,12 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_reactRouter.Route, { exact: true, path: '/', component: _index2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/i_detail', component: _i_detail2.default })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/i_detail/:id', component: _i_detail2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _login2.default })
 	);
 
 /***/ }),
-/* 326 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33562,13 +33647,13 @@
 	
 	var _reactRedux = __webpack_require__(212);
 	
-	var _ac_index = __webpack_require__(327);
-	
 	var _reactRouterDom = __webpack_require__(257);
 	
-	var _page = __webpack_require__(339);
+	var _page = __webpack_require__(329);
 	
 	var _page2 = _interopRequireDefault(_page);
+	
+	var _ac_index = __webpack_require__(330);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33609,19 +33694,13 @@
 	                    list.map(function (v, k) {
 	                        return _react2.default.createElement(
 	                            _reactRouterDom.Link,
-	                            { className: 'title', to: "i_detail/" + v, key: 'IlistIndex_' + k },
-	                            v
+	                            { className: 'title', to: "i_detail/" + v.id, key: 'IlistIndex_' + k },
+	                            v.name
 	                        );
 	                    })
 	                ),
 	                _react2.default.createElement(_page2.default, { data: pageObj, callback: _ac_index.SkipPage, dispatch: dispatch, config: { size: 20, page: 5 } })
 	            );
-	        }
-	    }, {
-	        key: 'hanldeDispatch',
-	        value: function hanldeDispatch() {
-	            console.log(1);
-	            this.props.dispatch((0, _ac_index.Test)());
 	        }
 	    }]);
 	
@@ -33639,7 +33718,150 @@
 	exports.default = (0, _reactRedux.connect)(selectState)(Index);
 
 /***/ }),
-/* 327 */
+/* 329 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouterDom = __webpack_require__(257);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Page = function (_Component) {
+	    _inherits(Page, _Component);
+	
+	    function Page(props) {
+	        _classCallCheck(this, Page);
+	
+	        var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this, props));
+	
+	        _this.state = {
+	            page: []
+	        };
+	        return _this;
+	    }
+	
+	    _createClass(Page, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var _props = this.props,
+	                data = _props.data,
+	                onePage = _props.onePage,
+	                config = _props.config,
+	                page = data.page,
+	                count = data.count,
+	                maxPage = Math.ceil(count / config.size),
+	                nowSizeIndex = Math.floor(page / config.page),
+	                nowIndex = page % config.page,
+	                tem_num = nowSizeIndex * config.page,
+	                first_page = nowIndex > 1 ? tem_num : nowIndex == 1 ? nowSizeIndex > 0 ? tem_num - config.page : tem_num : tem_num + config.page < maxPage ? tem_num + config.page : tem_num,
+	                pageAraay = [];
+	
+	            first_page = first_page || 1;
+	            for (var i = 1; first_page <= maxPage && i < 6; i++, first_page++) {
+	                pageAraay.push(first_page);
+	            }this.setState({
+	                page: pageAraay
+	            });
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps) {
+	            var data = nextProps.data,
+	                onePage = nextProps.onePage,
+	                config = nextProps.config,
+	                page = data.page,
+	                count = data.count,
+	                maxPage = Math.ceil(count / config.size),
+	                nowSizeIndex = Math.floor(page / config.page),
+	                nowIndex = page % config.page,
+	                tem_num = nowSizeIndex * config.page,
+	                first_page = nowIndex > 1 ? tem_num : nowIndex == 1 ? nowSizeIndex > 0 ? tem_num - config.page : tem_num : tem_num < maxPage ? tem_num : tem_num - config.page,
+	                pageAraay = [];
+	
+	            first_page = first_page || 1;
+	            console.log(maxPage, nowSizeIndex, nowIndex, first_page);
+	            for (var i = 1; first_page <= maxPage && i < 6; i++, first_page++) {
+	                pageAraay.push(first_page);
+	            }this.setState({
+	                page: pageAraay
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+	
+	            var page = this.state.page,
+	                _props2 = this.props,
+	                dispatch = _props2.dispatch,
+	                callback = _props2.callback,
+	                data = _props2.data;
+	
+	            return _react2.default.createElement(
+	                'ul',
+	                { className: 'page_content clearfix' },
+	                _react2.default.createElement(
+	                    'li',
+	                    { className: 'skip_one', onClick: function onClick() {
+	                            return dispatch(callback(parseInt(data.page) - 1 ? parseInt(data.page) - 1 : parseInt(data.page)));
+	                        } },
+	                    "<上一页"
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    { className: 'active' },
+	                    data.page
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    { className: 'input' },
+	                    ' ',
+	                    _react2.default.createElement('input', { type: 'text', onBlur: function onBlur(e) {
+	                            return _this2.handleBulrInp(e.target.value);
+	                        } })
+	                ),
+	                _react2.default.createElement(
+	                    'li',
+	                    { className: 'skip_one', onClick: function onClick() {
+	                            return dispatch(callback(parseInt(data.page) + 1));
+	                        } },
+	                    "下一页>"
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'handleBulrInp',
+	        value: function handleBulrInp(value) {
+	            if (!value) return;
+	            value -= 0;
+	            isNaN(value) ? '' : this.props.dispatch(this.props.callback(value - 0));
+	        }
+	    }]);
+	
+	    return Page;
+	}(_react.Component);
+	
+	exports.default = Page;
+
+/***/ }),
+/* 330 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -33663,11 +33885,12 @@
 	    return function (dispatch, getState) {
 	        var state = getState()[reducer];
 	        if (page || state.list.length <= 0) {
-	            post('/login/login', { page: page }).then(function (d) {});
-	            dispatch({
-	                type: key + 'list',
-	                list: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	                pageObj: { count: 121, page: 6 }
+	            get('/public/list', { page: page }).then(function (d) {
+	                dispatch({
+	                    type: key + 'list',
+	                    list: d.data.list,
+	                    pageObj: { count: d.data.count, page: d.data.page }
+	                });
 	            });
 	        }
 	    };
@@ -33675,21 +33898,32 @@
 	
 	var SkipPage = exports.SkipPage = function SkipPage(page) {
 	    return function (dispatch, getState) {
-	        var state = getState()[reducer];
-	        dispatch({
-	            type: key + 'list',
-	            list: state.list,
-	            pageObj: {
-	                count: state.pageObj.count,
-	                page: page
-	            }
+	        dispatch(GetList(page));
+	    };
+	};
+	
+	var GetDetail = exports.GetDetail = function GetDetail(id) {
+	    return function (dispatch, getState) {
+	        var detailState = getState()[reducer];
+	        if (detailState.detailId == id && detailState.detailList.length > 0) {
+	            console.log('read state');
+	            dispatch({ type: 'none' });
+	            return;
+	        }
+	        get('public/detail', {
+	            id: id
+	        }).then(function (d) {
+	            dispatch({
+	                type: key + '_detail',
+	                detailId: id,
+	                detailList: d.data
+	            });
 	        });
-	        //dispatch(GetList(page));
 	    };
 	};
 
 /***/ }),
-/* 328 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -33706,15 +33940,15 @@
 	
 	var _reactRedux = __webpack_require__(212);
 	
-	var _ac_index = __webpack_require__(327);
-	
 	var _reactRouterDom = __webpack_require__(257);
 	
-	var _reactRouterTransition = __webpack_require__(329);
+	var _reactRouterTransition = __webpack_require__(332);
 	
-	var _spring = __webpack_require__(330);
+	var _spring = __webpack_require__(333);
 	
 	var _spring2 = _interopRequireDefault(_spring);
+	
+	var _ac_index = __webpack_require__(330);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -33734,6 +33968,18 @@
 	    }
 	
 	    _createClass(Idetail, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var id = this.props.params.id;
+	            if (!id) history.go(-1);
+	            this.props.dispatch((0, _ac_index.GetDetail)(id));
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(nextProps, nextState) {
+	            if (this.props.params.id != nextProps.params.id) this.props.dispatch((0, _ac_index.GetDetail)(nextProps.params.id));
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -33790,28 +34036,23 @@
 	                )
 	            );
 	        }
-	    }, {
-	        key: 'hanldeDispatch',
-	        value: function hanldeDispatch() {
-	            console.log(1);
-	            this.props.dispatch((0, _ac_index.Test)());
-	        }
 	    }]);
 	
 	    return Idetail;
 	}(_react.Component);
 	
 	var selectState = function selectState(state, ownProps) {
+	    var thisState = state['iList'];
 	    return {
-	        a: state,
-	        data: state.Test.a
+	        list: thisState.detailList,
+	        params: ownProps.match.params
 	    };
 	};
 	
 	exports.default = (0, _reactRedux.connect)(selectState)(Idetail);
 
 /***/ }),
-/* 329 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module) {'use strict';
@@ -35758,7 +35999,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(205)(module)))
 
 /***/ }),
-/* 330 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35781,7 +36022,7 @@
 	  return obj && obj.__esModule ? obj : { 'default': obj };
 	}
 	
-	var _presets = __webpack_require__(331);
+	var _presets = __webpack_require__(334);
 	
 	var _presets2 = _interopRequireDefault(_presets);
 	
@@ -35796,7 +36037,7 @@
 	module.exports = exports['default'];
 
 /***/ }),
-/* 331 */
+/* 334 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -35811,7 +36052,7 @@
 	module.exports = exports["default"];
 
 /***/ }),
-/* 332 */
+/* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35828,13 +36069,144 @@
 	
 	var _reactRedux = __webpack_require__(212);
 	
-	var _ac_index = __webpack_require__(327);
+	var _reactRouterDom = __webpack_require__(257);
+	
+	var _reactRouterTransition = __webpack_require__(332);
+	
+	var _spring = __webpack_require__(333);
+	
+	var _spring2 = _interopRequireDefault(_spring);
+	
+	var _ac_public = __webpack_require__(336);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var LoginClass = function (_Component) {
+	    _inherits(LoginClass, _Component);
+	
+	    function LoginClass(props) {
+	        _classCallCheck(this, LoginClass);
+	
+	        return _possibleConstructorReturn(this, (LoginClass.__proto__ || Object.getPrototypeOf(LoginClass)).call(this, props));
+	    }
+	
+	    _createClass(LoginClass, [{
+	        key: 'render',
+	        value: function render() {
+	            return _react2.default.createElement(
+	                _reactRouterTransition.RouteTransition,
+	                {
+	                    component: false,
+	                    pathname: this.props.location.pathname,
+	                    className: 'transition-wrapper',
+	                    atEnter: {
+	                        opacity: 0,
+	                        offset: 40
+	                    },
+	                    atLeave: {
+	                        opacity: 0,
+	                        offset: 10
+	                    },
+	                    atActive: {
+	                        opacity: 1,
+	                        offset: 0
+	                    },
+	                    mapStyles: function mapStyles(styles) {
+	                        return {
+	                            opacity: styles.opacity,
+	                            transform: 'translateX(' + styles.offset + '%)'
+	                        };
+	                    }
+	                },
+	                _react2.default.createElement(
+	                    'div',
+	                    { id: 'i_login_content' },
+	                    _react2.default.createElement('input', { type: 'text' }),
+	                    _react2.default.createElement('input', { type: 'text' })
+	                )
+	            );
+	        }
+	    }, {
+	        key: 'hanldeDispatch',
+	        value: function hanldeDispatch() {
+	            console.log(1);
+	            this.props.dispatch(Test());
+	        }
+	    }]);
+	
+	    return LoginClass;
+	}(_react.Component);
+	
+	var selectState = function selectState(state, ownProps) {
+	    return {
+	        a: state,
+	        data: state.Test.a
+	    };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(selectState)(LoginClass);
+
+/***/ }),
+/* 336 */
+/***/ (function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	var key = 'Public';
+	
+	var Login = exports.Login = function Login(page) {
+	    return function (dispatch, getState) {
+	
+	        dispatch({
+	            type: key + "login",
+	            data: 'ok'
+	        });
+	        return;
+	        if (page || state.list.length <= 0) {
+	            post('/login/login', { page: page }).then(function (d) {});
+	            dispatch({
+	                type: key + 'list',
+	                list: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	                pageObj: { count: 121, page: 6 }
+	            });
+	        }
+	    };
+	};
+
+/***/ }),
+/* 337 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(212);
+	
+	var _ac_index = __webpack_require__(330);
 	
 	var _reactRouterDom = __webpack_require__(257);
 	
-	var _reactRouterTransition = __webpack_require__(329);
+	var _reactRouterTransition = __webpack_require__(332);
 	
-	var _spring = __webpack_require__(330);
+	var _spring = __webpack_require__(333);
 	
 	var _spring2 = _interopRequireDefault(_spring);
 	
@@ -35923,16 +36295,16 @@
 	exports.default = (0, _reactRedux.connect)(selectState)(Index);
 
 /***/ }),
-/* 333 */
+/* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _promisePolyfill = __webpack_require__(334);
+	var _promisePolyfill = __webpack_require__(339);
 	
 	var _promisePolyfill2 = _interopRequireDefault(_promisePolyfill);
 	
-	__webpack_require__(337);
+	__webpack_require__(342);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -35982,6 +36354,7 @@
 	        fetch(host + url, config).then(function (res) {
 	            return res.json();
 	        }).then(function (res) {
+	            console.log(res);
 	            if (res.code == 403) {
 	                alert(res.message);
 	                return;
@@ -36017,7 +36390,7 @@
 	})(document, window);
 
 /***/ }),
-/* 334 */
+/* 339 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(setImmediate) {'use strict';
@@ -36257,10 +36630,10 @@
 	    root.Promise = Promise;
 	  }
 	})(undefined);
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(335).setImmediate))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(340).setImmediate))
 
 /***/ }),
-/* 335 */
+/* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36313,12 +36686,12 @@
 	};
 	
 	// setimmediate attaches itself to the global object
-	__webpack_require__(336);
+	__webpack_require__(341);
 	exports.setImmediate = setImmediate;
 	exports.clearImmediate = clearImmediate;
 
 /***/ }),
-/* 336 */
+/* 341 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {"use strict";
@@ -36508,7 +36881,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(3)))
 
 /***/ }),
-/* 337 */
+/* 342 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -36970,183 +37343,6 @@
 	  };
 	  self.fetch.polyfill = true;
 	})(typeof self !== 'undefined' ? self : undefined);
-
-/***/ }),
-/* 338 */
-/***/ (function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	var initState = {
-	    list: [],
-	    pageObj: { count: 0, page: 0 }
-	};
-	var key = 'IList';
-	
-	function IList() {
-	    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initState;
-	    var action = arguments[1];
-	
-	    switch (action.type) {
-	        case key + 'list':
-	            {
-	                return Object.assign({}, state, {
-	                    list: action.list,
-	                    pageObj: action.pageObj
-	                });
-	            }
-	        default:
-	            return state;
-	    }
-	}
-	
-	exports.default = IList;
-
-/***/ }),
-/* 339 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouterDom = __webpack_require__(257);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var Page = function (_Component) {
-	    _inherits(Page, _Component);
-	
-	    function Page(props) {
-	        _classCallCheck(this, Page);
-	
-	        var _this = _possibleConstructorReturn(this, (Page.__proto__ || Object.getPrototypeOf(Page)).call(this, props));
-	
-	        _this.state = {
-	            page: []
-	        };
-	        return _this;
-	    }
-	
-	    _createClass(Page, [{
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            var _props = this.props,
-	                data = _props.data,
-	                onePage = _props.onePage,
-	                config = _props.config,
-	                page = data.page,
-	                count = data.count,
-	                maxPage = Math.ceil(count / config.size),
-	                nowSizeIndex = Math.floor(page / config.page),
-	                nowIndex = page % config.page,
-	                tem_num = nowSizeIndex * config.page,
-	                first_page = nowIndex > 1 ? tem_num : nowIndex == 1 ? nowSizeIndex > 0 ? tem_num - config.page : tem_num : tem_num + config.page < maxPage ? tem_num + config.page : tem_num,
-	                pageAraay = [];
-	
-	            first_page = first_page || 1;
-	            for (var i = 1; first_page <= maxPage && i < 6; i++, first_page++) {
-	                pageAraay.push(first_page);
-	            }this.setState({
-	                page: pageAraay
-	            });
-	        }
-	    }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            var data = nextProps.data,
-	                onePage = nextProps.onePage,
-	                config = nextProps.config,
-	                page = data.page,
-	                count = data.count,
-	                maxPage = Math.ceil(count / config.size),
-	                nowSizeIndex = Math.floor(page / config.page),
-	                nowIndex = page % config.page,
-	                tem_num = nowSizeIndex * config.page,
-	                first_page = nowIndex > 1 ? tem_num : nowIndex == 1 ? nowSizeIndex > 0 ? tem_num - config.page : tem_num : tem_num < maxPage ? tem_num : tem_num - config.page,
-	                pageAraay = [];
-	
-	            first_page = first_page || 1;
-	            console.log(maxPage, nowSizeIndex, nowIndex, first_page);
-	            for (var i = 1; first_page <= maxPage && i < 6; i++, first_page++) {
-	                pageAraay.push(first_page);
-	            }this.setState({
-	                page: pageAraay
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-	
-	            var page = this.state.page,
-	                _props2 = this.props,
-	                dispatch = _props2.dispatch,
-	                callback = _props2.callback,
-	                data = _props2.data;
-	
-	            return _react2.default.createElement(
-	                'ul',
-	                { className: 'page_content clearfix' },
-	                _react2.default.createElement(
-	                    'li',
-	                    { className: 'skip_one', onClick: function onClick() {
-	                            return dispatch(callback(v - 1 ? v - 1 : v));
-	                        } },
-	                    "<上一页"
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    { className: 'active' },
-	                    data.page
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    { className: 'input' },
-	                    ' ',
-	                    _react2.default.createElement('input', { type: 'text', onBlur: function onBlur(e) {
-	                            return _this2.handleBulrInp(e.target.value);
-	                        } })
-	                ),
-	                _react2.default.createElement(
-	                    'li',
-	                    { className: 'skip_one', onClick: function onClick() {
-	                            return dispatch(callback(v + 1));
-	                        } },
-	                    "下一页>"
-	                )
-	            );
-	        }
-	    }, {
-	        key: 'handleBulrInp',
-	        value: function handleBulrInp(value) {
-	            if (!value) return;
-	            value -= 0;
-	            isNaN(value) ? '' : this.props.dispatch(this.props.callback(value - 0));
-	        }
-	    }]);
-	
-	    return Page;
-	}(_react.Component);
-	
-	exports.default = Page;
 
 /***/ })
 /******/ ]);
