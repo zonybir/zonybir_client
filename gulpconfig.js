@@ -28,8 +28,12 @@ const js={
     out:__dirname+'/build/script/app.js',
     watch:__dirname+'/src/script/**'
 }
+
+const libJs=['react','react-dom','redux','react-redux','history/createHashHistory','react-router-dom','react-router-redux','react-router']
+
 exports.html=html;
 exports.images=images;
 exports.css=css;
 exports.js=js;
 exports.livereloadconfig=livereloadconfig;
+exports.lib=libJs;

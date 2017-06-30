@@ -10,7 +10,11 @@ var gulp = require('gulp'),
     clean = require('gulp-clean'),
     livereload = require('livereload');
 
-const {html,images,css,js,livereloadconfig} = require('./gulpconfig');
+const gutil = require('gulp-util'),
+    _webpack= require('webpack'),
+    path = require('path');
+
+const {html,images,css,js,livereloadconfig,lib} = require('./gulpconfig');
 
 gulp.task('html',()=>{
     return gulp.src(html.entry)
@@ -46,33 +50,59 @@ gulp.task('sass',()=>{
             .pipe(gulp.dest(css.out))
 })
 
-gulp.task('webpack',()=>{
-    return gulp.src('./src/script/app.js')
-            .pipe(webpack({
-                watch:true,
-                output:{
-                    filename:'./build/script/app.js'
-                },
-                module:{
-                    loaders:[
-                        {
-                            test:/\.js$|\.jsx$/,
-                            loader:'babel',
-                            query:{
-                                presets:['react','es2015']
-                            }
-                        }
-                    ]
-                },
-                resolve:{
-                    extensions:['','.js','.jsx']
-                },
-                devtool:'source-map'
-            }))
-            .pipe(gulp.dest('./'))
+gulp.task('webpack_dev',()=>{
+    startWebpack(true);
 })
+gulp.task('webpack_pro',()=>{
+    startWebpack(false);
+})
+let isFirstRun=true;
+const startWebpack=(dev)=>{
+    let webpackConfig={
+        entry:{
+            app:'./src/script/app.js',
+            vendor:lib
+        },
+        output:{
+            path:path.resolve(__dirname+'/build/script'),
+            filename:'[name].js'
+        },
+        module:{
+            loaders:[
+                {
+                    test:/\.js$|\.jsx$/,
+                    loader:'babel-loader',
+                    query:{
+                        presets:['react','es2015']
+                    }
+                }
+            ]
+        },
+        resolve:{
+            extensions:['.js','.jsx']
+        },
+        plugins:[
+            new _webpack.optimize.CommonsChunkPlugin({
+                names:['vendor']
+            })
+        ]
+    };
+    if(dev){
+        //webpackConfig.devtool='source-map';
+        webpackConfig.watch=true;
+    }
+    _webpack(webpackConfig,(err,stats)=>{
+        if(err) throw new gutil.PluginError('webpack',err);
+        if(dev&&!isFirstRun){
+            gutil.log("[webpack]",stats.toString().split('\n').slice(0,6).join('\n'));
+        }else{
+            gutil.log("[webpack]",stats.toString({colors:'#ff0000'}));
+        }
+        isFirstRun=false;
+    })
+}
 
-gulp.task('dev',['html','copy_index','images','sass'],()=>{
+gulp.task('dev',['html','copy_index','images','sass','webpack_dev'],()=>{
     let livereloadServer = livereload.createServer({
         port:35730
     })

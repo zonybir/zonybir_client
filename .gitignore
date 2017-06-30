@@ -37,6 +37,8 @@ jspm_packages
 .node_repl_history
 ./node-http-proxy/.git
 ./node-http-proxy/.git/*
+build
 ./build
+./build/**
 ./test
 ./test/**

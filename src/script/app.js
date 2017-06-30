@@ -15,7 +15,8 @@ import {routerMiddleware,routerReducer,syncHistoryWithStore} from 'react-router-
 import storeData from './reducers'
 import appRouter from './router.js'
 
-import './lib/utils';
+import './lib/utils'
+import './lib/resize'
 
 const history = createHashHistory();
 
