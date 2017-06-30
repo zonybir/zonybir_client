@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
+import { withRouter } from 'react-router'
 import {Link} from 'react-router-dom'
 import {RouteTransition } from 'react-router-transition'
 import spring from 'react-motion/lib/spring';
@@ -75,4 +76,4 @@ const selectState = (state,ownProps)=>{
     }
 }
 
-export default connect(selectState)(Idetail)
+export default withRouter(connect(selectState)(Idetail))

@@ -65,7 +65,10 @@ const startWebpack=(dev)=>{
         },
         output:{
             path:path.resolve(__dirname+'/build/script'),
-            filename:'[name].js'
+            filename:'[name].js',
+            publicPath:'/script/',
+            // 添加 chunkFilename
+            chunkFilename: '[name]-[id].[chunkhash].bundle.js',
         },
         module:{
             loaders:[
@@ -88,13 +91,13 @@ const startWebpack=(dev)=>{
         ]
     };
     if(dev){
-        //webpackConfig.devtool='source-map';
+        webpackConfig.devtool='source-map';
         webpackConfig.watch=true;
     }
     _webpack(webpackConfig,(err,stats)=>{
         if(err) throw new gutil.PluginError('webpack',err);
         if(dev&&!isFirstRun){
-            gutil.log("[webpack]",stats.toString().split('\n').slice(0,6).join('\n'));
+            gutil.log("[webpack]",stats.toString().split('\n').slice(0,14).join('\n'));
         }else{
             gutil.log("[webpack]",stats.toString({colors:'#ff0000'}));
         }
