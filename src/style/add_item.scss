@@ -1,0 +1,36 @@
+#add_item{background-color: #e8e8e8;
+    .type_content{display: flex;flex-wrap:wrap;justify-content:left;align-items:center;padding:.2rem 0;font-size:.26rem;
+        li{text-align:center;border-radius:.05rem;background-color:#fafafa;margin-top:.2rem;margin-left:.2rem;padding:.1rem .1rem;border:1px solid #fafafa;
+             &.active{color:#f18e00;border:1px solid #f18e00;}
+        }
+        &.sec_type_name{font-size:.22rem;padding:0;}
+    }
+    .sec_type{padding-top: .2rem;
+        h3{font-size: .28rem;text-align:center;padding-bottom:.1rem;
+            span{display: inline-block;padding:.1rem .2rem;border-radius: 1px solid .05rem;background-color:#fafafa;}
+        }
+    }
+    .step_container{position:relative;width:6.4rem;overflow-x:hidden;padding-bottom:1rem;
+        .step{position: absolute;left:0;top:0;z-index:1;transition:all .5s ease-in-out 0s;background-color:#e8e8e8;width:6.4rem;min-height:100%;
+            &.step2{top:0;position:absolute;z-index:2;transform:translate(6.4rem,0);
+                &.active{transform:translate(0,0);}
+            }
+            .type_sec_container{padding-top:.2rem;border-left:2px solid #fff;
+                span{display: inline-block;padding:.05rem .1rem;background-color: #fff;border-radius: .07rem;border:1px solid #fff;margin-left:.2rem;margin-bottom:.2rem;
+                    &.active{color:#f18e00;border:1px solid #f18e00;}
+                }
+            }
+        }
+        .add_item_detail{display: flex;justify-content:center;align-items:center;border-top:1px solid #fff;padding:.1rem .1rem;
+            &:first-child{border-top:0;}
+            .sec_type_name{width: 1.5rem;}
+            .sec_type_detail{width:3.3rem;
+                input{margin-left:.1rem;padding:.1rem .1rem;border:1px solid #ddd;border-radius:.07rem;width:2.1rem;
+                    &:first-child{margin-top:0;}
+                    &.pri_inp{width:1rem;}
+                }
+            }
+        }
+    }
+    .btn{font-size:.22rem;width:4rem;background-color:#f18e00;text-align:center;padding:.1rem .2rem;color:#fff;border-radius:.06rem;position:fixed;bottom:.4rem;left:1.2rem;z-index:10;}
+}

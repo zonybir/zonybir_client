@@ -2,17 +2,15 @@ const initState={
     list:[],
     pageObj:{count:0,page:0},
     detailId:-1,
-    detailList:[],
-    activeType:1
+    detailList:[]
 }
-const key='IList';
+const key='addItem';
 
-function IList(state=initState,action){
+function addItem(state=initState,action){
     switch(action.type){
-        case key+'list':{
+        case key+'setTypeList':{
             return Object.assign({},state,{
-                list:action.list,
-                activeType:action.activeType
+                list:action.data
             })
         }
         case key+'_detail':{
@@ -25,4 +23,4 @@ function IList(state=initState,action){
     }
 }
 
-export default IList
+export default addItem

@@ -1,23 +1,13 @@
 const key='Public';
 
-export const Login=(page)=>{
+export const Login=(name,pwd)=>{
     return (dispatch,getState)=>{
-        
-        dispatch({
-            type:key+"login",
-            data:'ok'
-        })
-        return;
-        if(page || state.list.length<=0){
-            post('/login/login',{page:page})
+        if(name&&pwd){
+            post('/login',{user:name,password:pwd})
             .then((d)=>{
-
+                localStorage.user=JSON.stringify(d.data);
+                location.hash='/';
             })
-            dispatch({
-                type:key+'list',
-                list:[1,1,1,1,1,1,1,1,1,1],
-                pageObj:{count:121,page:6}
-            })
-        }
+        }else alert('用户名或密码不能为空')
     }
 }

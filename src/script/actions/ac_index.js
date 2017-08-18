@@ -10,24 +10,37 @@ export const Test=(data)=>{
     }
 }
 
-export const GetList=(page)=>{
+export const GetList=(type)=>{
     return (dispatch,getState)=>{
         let state=getState()[reducer];
-        if(page || state.list.length<=0){
-            get('/public/list',{page:page})
-            .then((d)=>{
-                dispatch({
-                    type:key+'list',
-                    list:d.data.list,
-                    pageObj:{count:d.data.count,page:d.data.page}
+        get('/user/list',{type:type=='2'?'week':type==3?'month':type==4?'year':''})
+        .then((d)=>{
+            let data=d.data,list=[];
+            data.map((v,k)=>{
+                let children=v.children.split(','),itemList=[];
+                children.map((vi,ki)=>{
+                    let obj=vi.split('-');
+                    itemList.push({
+                        type:obj[0],
+                        detail:obj[1],
+                        amount:obj[2]
+                    })
+                })
+                list.push({
+                    title:v.title,
+                    children:itemList
                 })
             })
-            
-        }
+            dispatch({
+                type:key+'list',
+                list,
+                activeType:type||1
+            })
+        })   
     }
 }
 
-export const SkipPage=(page)=>{
+export const ChangeCicyl=(type)=>{
     return (dispatch,getState)=>{
         dispatch(GetList(page));
     }
@@ -41,15 +54,11 @@ export const GetDetail=(id)=>{
             dispatch({type:'none'});
             return;
         }
-        get('public/detail',{
-            id:id
-        })
-        .then((d)=>{
-            dispatch({
-                type:key+'_detail',
-                detailId:id,
-                detailList:d.data
-            })
+        
+        dispatch({
+            type:key+'_detail',
+            detailId:id,
+            detailList:d.data
         })
     }
 }

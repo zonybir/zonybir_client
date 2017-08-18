@@ -2,8 +2,6 @@ import React,{Component} from 'react'
 import {connect} from 'react-redux'
 
 import {Link} from 'react-router-dom'
-import {RouteTransition } from 'react-router-transition'
-import spring from 'react-motion/lib/spring';
 
 import {
     Login
@@ -14,47 +12,24 @@ class LoginClass extends Component{
     }
     render(){
         return(
-            <RouteTransition
-            component={false}
-            pathname={this.props.location.pathname}
-            className="transition-wrapper"
-            atEnter={{ 
-                opacity: 0,
-                offset: 40
-            }}
-            atLeave={{ 
-                opacity: 0,
-                offset: 10
-             }}
-            atActive={{ 
-                opacity: 1,
-                offset: 0
-            }}
-            mapStyles={(styles)=>{
-                return {
-                    opacity: styles.opacity,
-                    transform: `translateX(${styles.offset}%)`,
-                };
-            }}
-            >
-            <div id="i_login_content">
-                <input type='text' />
-                <input type='text' />
+            <div id="login">
+                <div className='info'>懂你所懂</div>
+                <div className='form_login'>
+                    <input type='text' placeholder='公测账户' ref='user_name_login'/>
+                    <input type='password' placeholder='请输入您的密码' ref='user_password_login'/>
+                    <div className='submit_btn' onClick={()=>this.props.dispatch(Login(this.refs.user_name_login.value,this.refs.user_password_login.value))}>登录</div>
+                </div>
             </div>
-            </RouteTransition>
         )
     }
-    hanldeDispatch(){
-        console.log(1);
-        this.props.dispatch(Test());
+    componentDidMount(){
+        let user=localStorage.user;
+        if(user) location.hash='/';
     }
 }
 
 const selectState = (state,ownProps)=>{
-    return{
-        a:state,
-        data:state.Test.a
-    }
+    return{}
 }
 
 export default connect(selectState)(LoginClass)

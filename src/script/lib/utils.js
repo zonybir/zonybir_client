@@ -15,9 +15,11 @@ window.get=(url,json)=>{
     return send_request('GET',encodeURI(url));
 };
 
-window.post=(url,data)=>{
+window.post=(url,data,json)=>{
     var body=data,i;
-    if(!(data instanceof FormData)){
+    if(json){
+
+    }else if(!(data instanceof FormData)){
         body=new FormData();
         for(i in data){
             if(!data[i]){continue};
@@ -41,11 +43,13 @@ function send_request(method,url,body){
         }).then(function(res){
             console.log(res);
             if(res.code==403){
-                alert(res.message);
+                location.hash='login';
+                localStorage.user='';
                 return;
             };
             if(res.code!=200){
                 if(rej){reject(res)};
+                alert(res.message);
             }else{
                 resolve(res);
             };
